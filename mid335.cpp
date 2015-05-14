@@ -88,7 +88,7 @@ int main(int argc, char *argv[])
     //You may call your unit test here...
     if(note == Z && octave_delta == 0) {
         unitTest(testNote);
-        cout<<"bad element count: "<<error<<endl;
+        cout<<"\n\nbad element count: "<<error<<endl;
         cout<<"unit test complete\n";
     }
     else {
