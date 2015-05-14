@@ -38,35 +38,37 @@ typedef enum {
 
 double freq(note_t note, int octave_delta);
 void unitTest(note_t *);
+//The following variables are 
+//needed for my unit test function
+//------------------------------
 int octaveArray[9];
 double output[9][12];
 double tolerance = .004, error;
+//-----------------------------
 int main(int argc, char *argv[])
 {
     string info;
 	note_t note;
-	int octave_delta;
+	int octave_delta = 0;
     ifstream file;
     file.open("info.txt");
     note_t testNote[12] = {C,Cs,D,Ds,E,F,Fs,G,Gs,A,As,B};
 	if (argc != 3 && argc != 4) {
-		cout << "Usage: " << argv[0] << " <NOTE>  <OCTAVE_DELTA>" << endl;
+		cout << "Usage: " << argv[0] << " <NOTE>  <OCTAVE_DELTA> <optional:tolerance>" << endl;
 		return 0;
 	}
-    if (argc == 4)
-    {
+    if (argc == 4) {
         tolerance = atoi(argv[3]);
     }
     // Setting up the ocale array and also importing my values from the website
-    for (int i = 0; i < 9; i++)
-    {
-        octaveArray[i]=i;
-        for(int j = 0;j<12;j++)
-        {
+    for (int i = 0; i < 9; i++) {
+        octaveArray[i] = i;
+        for(int j = 0;j < 12;j++) {
             file >> info;
             output[i][j] = atof(info.c_str());
         }
     }
+    //Done with file so closing it.
     file.close();
 	//
 	note = (note_t)(toupper(argv[1][0]) - 64);
@@ -117,6 +119,9 @@ double freq(note_t note, int octave_delta)
 	return freq;
 }
 
+//--------------------------------------------------------------------------------------
+//This functions will do a unit test on the freq function and will print out each result.
+//---------------------------------------------------------------------------------------
 void unitTest(note_t *testNote) 
 {
     cout<<"tolerance: "<<tolerance<<endl;
@@ -125,13 +130,11 @@ void unitTest(note_t *testNote)
     double diff;
     double result;
     error = 0;
-    cout<<setw(5)<<"note"<<setw(5)<<"octave"<<setw(5)<<"value\n";
-    //cout<<setw(5)<<"----"<<setw(5)<<"------"<<setw(5)<<"-----\n";
+    cout<<setw(10)<<"note"<<setw(10)<<"octave"<<setw(10)<<"value"<<setw(15)<<"diff\n";
+    cout<<setw(10)<<"----"<<setw(10)<<"------"<<setw(10)<<"-----"<<setw(15)<<"----\n";
 
-    for ( int i = 0; i < 9; i++)
-    {
-        for (int j = 0 ; j < 12; j++)
-        {
+    for ( int i = 0; i < 9; i++) {
+        for (int j = 0 ; j < 12; j++) {
             result = freq(testNote[j],octaveArray[i]);
             diff = result - output[i][j];
             diff = abs(diff);
@@ -142,7 +145,7 @@ void unitTest(note_t *testNote)
                 check = "<---BAD";
                 error++;
             }
-            cout<<testNote[j]<<"\t"<<octaveArray[i]<<"\t"<<result<<"\t"<<diff<<"\t"<<check<<endl;
+            cout<<setw(10)<<testNote[j]<<setw(10)<<octaveArray[i]<<setw(10)<<result<<setw(20)<<diff<<setw(10)<<check<<endl;
         }
     }
 }
