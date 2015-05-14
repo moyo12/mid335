@@ -19,21 +19,21 @@ using namespace std;
 #define F0_octave 4
 
 typedef enum {
-	C = 1,
-	Cs,
-	D,
-	Ds,
-	E,
-	F,
-	Fs,
-	G,
-	Gs,
-	A,
-	As,
-	B,
+    C = 1,
+    Cs,
+    D,
+    Ds,
+    E,
+    F,
+    Fs,
+    G,
+    Gs,
+    A,
+    As,
+    B,
     Z, 
-	END = Z,
-	HALF_STEPS_PER_OCTAVE = B,
+    END = Z,
+    HALF_STEPS_PER_OCTAVE = B,
 } note_t;
 
 double freq(note_t note, int octave_delta);
@@ -48,15 +48,15 @@ double tolerance = .004, error;
 int main(int argc, char *argv[])
 {
     string info;
-	note_t note;
-	int octave_delta = 0;
+    note_t note;
+    int octave_delta = 0;
     ifstream file;
     file.open("info.txt");
     note_t testNote[12] = {C,Cs,D,Ds,E,F,Fs,G,Gs,A,As,B};
-	if (argc != 3 && argc != 4) {
-		cout << "Usage: " << argv[0] << " <NOTE>  <OCTAVE_DELTA> <optional:tolerance>" << endl;
-		return 0;
-	}
+    if (argc != 3 && argc != 4) {
+        cout << "Usage: " << argv[0] << " <NOTE>  <OCTAVE_DELTA> <optional:tolerance>" << endl;
+        return 0;
+    }
     if (argc == 4) {
         tolerance = atoi(argv[3]);
     }
@@ -70,19 +70,19 @@ int main(int argc, char *argv[])
     }
     //Done with file so closing it.
     file.close();
-	//
-	note = (note_t)(toupper(argv[1][0]) - 64);
-	switch(toupper(argv[1][0])) {
-		case 'A': note = A; break;
-		case 'B': note = B; break;
-		case 'C': note = C; break;
-		case 'D': note = D; break;
-		case 'E': note = E; break;
-		case 'F': note = F; break;
+    //
+    note = (note_t)(toupper(argv[1][0]) - 64);
+    switch(toupper(argv[1][0])) {
+        case 'A': note = A; break;
+        case 'B': note = B; break;
+        case 'C': note = C; break;
+        case 'D': note = D; break;
+        case 'E': note = E; break;
+        case 'F': note = F; break;
         case 'Z': note = Z;  break;
-	}
-	if (note > END) {
-		cout << "Invalid note!" << endl;
+    }
+    if (note > END) {
+        cout << "Invalid note!" << endl;
         return 1;
     }
     //You may call your unit test here...
@@ -105,18 +105,18 @@ int main(int argc, char *argv[])
 //-----------------------------------------------------------
 double freq(note_t note, int octave_delta)
 {
-	double freq;
-	double factor;
-	double a;
-	int n;
-	int octave = octave_delta - F0_octave;
+    double freq;
+    double factor;
+    double a;
+    int n;
+    int octave = octave_delta - F0_octave;
 
-	a = pow(2.0, 1.0/(double)HALF_STEPS_PER_OCTAVE);
-	n = note - F0_note;
-	freq = F0 * pow(a, (double)n);
-	factor = pow(2.0, (double)octave);
-	freq = freq * factor;
-	return freq;
+    a = pow(2.0, 1.0/(double)HALF_STEPS_PER_OCTAVE);
+    n = note - F0_note;
+    freq = F0 * pow(a, (double)n);
+    factor = pow(2.0, (double)octave);
+    freq = freq * factor;
+    return freq;
 }
 
 //--------------------------------------------------------------------------------------
